@@ -14,7 +14,7 @@
 {% endfor %}
 
 ## 大学院関連
-{% for event in Calendars.Labo.events.univ %}
+{% for event in Calendars.Univ.events.prev %}
 {{ event.fmt("+ (%START) %SUMMARY", "%-m/%-d") }}
 {% endfor %}
 
