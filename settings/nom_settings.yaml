@@ -1,0 +1,19 @@
+Template: templates/nom_record.md.tpl
+Number: 50
+Name: 西 良太
+Belongs: 乃村研究室M2
+Start: 2019年5月23日
+End: 2019年7月3日
+Date: 2019年7月4日
+NextDate: 2019年8月11日
+Calendars:
+  Labo:
+    Ids:
+      - 'is2imfc9l68c9ohurj8m84rehg@group.calendar.google.com'
+      - 'nomura.laboratory@gmail.com'
+      - 'i3rr8i5lhg3rbnrnf63pejs1qk@group.calendar.google.com'
+  Univ:
+    Ids:
+      - 'le7613rep4utu1hcep8sdk04ao@group.calendar.google.com'
+    Filter:
+      description: "西"
