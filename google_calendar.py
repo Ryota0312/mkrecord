@@ -75,7 +75,7 @@ class GoogleCalendarAPI:
         self.service = build('calendar', 'v3', credentials=self.credentials)
 
     # calendar_ids で指定したカレンダのイベントを取得し，ソートして返却
-    def get_event(self, calendar_ids, start, end):
+    def get_events(self, calendar_ids, start, end):
         # Call the Calendar API
         event_list = []
         for calendar_id in calendar_ids:
