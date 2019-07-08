@@ -3,21 +3,22 @@ import datetime
 from jinja2 import Template, Environment, FileSystemLoader
 from google_calendar import GoogleCalendarAPI
 
+# 設定ファイル読み込み
+f = open("settings.yaml", "r")
+settings = yaml.load(f)
+
 # GoogleCalendarAPI の初期化
 # 予めcredentials.jsonという名前で認証情報を置いておく必要有
 gcapi = GoogleCalendarAPI()
 gcapi.auth("credentials.json")
 
 env = Environment(loader=FileSystemLoader('.'), trim_blocks=True)
-template = env.get_template("templates/nom_record.md.tpl")
+template = env.get_template(settings["Template"])
 
-f = open("settings.yaml", "r")
-data = yaml.load(f)
+for cal in settings["Calendars"].keys():
+    settings["Calendars"][cal]["events"] = {}
+    settings["Calendars"][cal]["events"]["prev"] = gcapi.get_event(settings["Calendars"][cal]["Ids"], datetime.datetime.strptime(settings["Start"], "%Y年%m月%d日"), datetime.datetime.strptime(settings["End"],"%Y年%m月%d日"))
+    settings["Calendars"][cal]["events"]["next"] = gcapi.get_event(settings["Calendars"][cal]["Ids"], datetime.datetime.strptime(settings["Date"], "%Y年%m月%d日"), datetime.datetime.strptime(settings["NextDate"],"%Y年%m月%d日"))
 
-for cal in data["Calendars"].keys():
-    data["Calendars"][cal]["events"] = {}
-    data["Calendars"][cal]["events"]["prev"] = gcapi.get_event(data["Calendars"][cal]["Cals"], datetime.datetime.strptime(data["Start"], "%Y年%m月%d日"), datetime.datetime.strptime(data["End"],"%Y年%m月%d日"))
-    data["Calendars"][cal]["events"]["next"] = gcapi.get_event(data["Calendars"][cal]["Cals"], datetime.datetime.strptime(data["Date"], "%Y年%m月%d日"), datetime.datetime.strptime(data["NextDate"],"%Y年%m月%d日"))
-
-disp_text = template.render(data)
+disp_text = template.render(settings)
 print(disp_text)
