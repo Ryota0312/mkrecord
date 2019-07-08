@@ -7,7 +7,7 @@ from google_calendar import GoogleCalendarAPI
 # 設定ファイル読み込み
 args = sys.argv
 f = open(args[1], "r")
-settings = yaml.load(f)
+settings =   yaml.load(f, Loader=yaml.SafeLoader)
 
 # GoogleCalendarAPI の初期化
 # 予めcredentials.jsonという名前で認証情報を置いておく必要有
