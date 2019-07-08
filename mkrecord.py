@@ -1,10 +1,12 @@
 import yaml
 import datetime
+import sys
 from jinja2 import Template, Environment, FileSystemLoader
 from google_calendar import GoogleCalendarAPI
 
 # 設定ファイル読み込み
-f = open("settings.yaml", "r")
+args = sys.argv
+f = open(args[1], "r")
 settings = yaml.load(f)
 
 # GoogleCalendarAPI の初期化
