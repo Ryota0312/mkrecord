@@ -80,8 +80,8 @@ class GoogleCalendarAPI:
         event_list = []
         for calendar_id in calendar_ids:
             events_result = self.service.events().list(calendarId=calendar_id,
-                                                       timeMin=start.isoformat()+'Z',
-                                                       timeMax=end.isoformat()+'Z',
+                                                       timeMin=start.isoformat()+'+09:00',
+                                                       timeMax=end.isoformat()+'+09:00',
                                                        singleEvents=True,
                                                        orderBy='startTime').execute()
             events = events_result.get('items', [])
