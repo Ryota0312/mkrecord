@@ -2,6 +2,7 @@ from __future__ import print_function
 import datetime
 import pickle
 import os.path
+import re
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -75,7 +76,7 @@ class GoogleCalendarAPI:
         self.service = build('calendar', 'v3', credentials=self.credentials)
 
     # calendar_ids で指定したカレンダのイベントを取得し，ソートして返却
-    def get_events(self, calendar_ids, start, end):
+    def get_events(self, calendar_ids, start, end, filters=None):
         # Call the Calendar API
         event_list = []
         for calendar_id in calendar_ids:
@@ -90,6 +91,12 @@ class GoogleCalendarAPI:
                 print('No upcoming events found.')
             for event in events:
                 e = Event.parse(event)
+                # filters に指定した正規表現にマッチしないものは無視
+                if filters:
+                    if filters.get("summary"):
+                        if re.search(filters["summary"], e.summary) == None: continue
+                    if filters.get("description"):
+                        if re.search(filters["description"], e.description) == None: continue
                 event_list.append(e)
 
         return sorted(event_list)
