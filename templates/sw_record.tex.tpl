@@ -42,6 +42,7 @@
 \section{実績}
 \subsection{研究関連}
 {% endraw %}
+{{Research}}
 
 {% raw %}
 \subsection{研究室関連}
@@ -73,6 +74,7 @@
 \section{今後の予定}
 \subsection{研究関連}
 {% endraw %}
+{{Research}}
 
 {% raw %}
 \subsection{研究室関連}
