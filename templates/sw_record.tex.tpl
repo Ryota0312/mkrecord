@@ -42,6 +42,7 @@
 \section{実績}
 \subsection{研究関連}
 {% endraw %}
+{{PrevCopy.Research}}
 
 {% raw %}
 \subsection{研究室関連}
@@ -88,6 +89,7 @@
 {% raw %}
 \subsection{研究関連}
 {% endraw %}
+{{Research}}
 
 {% raw %}
 \subsection{研究室関連}

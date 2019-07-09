@@ -1,4 +1,5 @@
 Template: templates/sw_record.tex.tpl
+PrevRecord: old_records/record.tex
 Number: 50
 Familyname: 西
 Givenname: 良太
@@ -20,3 +21,7 @@ Calendars:
       - 'le7613rep4utu1hcep8sdk04ao@group.calendar.google.com'
     Filter:
       description: "西"
+PrevCopy:
+  Research:
+    Startline: 研究関連
+    Endline: 研究室関連

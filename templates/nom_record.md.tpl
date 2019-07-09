@@ -7,6 +7,7 @@
 
 # 実績，詳細，および反省・感想
 ## 研究関連
+{{PrevCopy.Research}}
 
 ## 研究室関連
 {% for event in Calendars.Labo.events.prev %}

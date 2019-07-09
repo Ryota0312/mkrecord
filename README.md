@@ -1,16 +1,41 @@
 # 記録書メーカー
 + templates と settings.yaml から記録書作る奴
-+ 現在，予定埋めるとこくらいしかできてないのでPR求む
 
 # Install
+1. clone & pip install
+
 ```
 $ git clone git@github.com:Ryota0312/mkrecord.git
 $ pip install -r requirements.txt
 ```
 
-mkrecord/ 以下に `credentials.json` という名前で認証情報を置いておく．
+2. Google Calendar API の有効化と認証情報の取得
+   + mkrecord/ 以下に `credentials.json` という名前で認証情報を置いておく必要あり
+   + https://console.cloud.google.com/apis/dashboard で取れるはず
+	 + 「APIとサービス」でProject作成→「APIとサービスを有効化」→「Google Calendar API」
+	 + 「認証情報」→「認証情報を作成」→「OAuth クライアントID」→「その他」を選んで作成
+	 + 「JSONをダウンロード」みたいなやつでダウンロードして「credentials.json」という名前で配置
 
 # Usage
++ 乃村研ミーティングの記録書を作る場合
+
 ```
-$ python mkrecord.py settings.yaml
+$ python mkrecord.py settings/nom_settings.yaml
 ```
+
+# How to setting
++ YAML形式で設定を記述する
+
+  |項目名|内容|
+  |-----|-----|
+  |Template|テンプレートファイル(jinja2)|
+  |PrevRecord|前回の記録書のパス|
+  |Calendars|予定を取得するカレンダ|
+  |Start|記録書の開始日|
+  |End|記録書の終了日|
+  |Date|ミーティングの日|
+  |NextDate|今後の予定に入れたい日の終了日|
+  |PrevCopy|前回の記録書からコピーする項目|
+
++ これ以外もそれっぽく埋める
++ TODO:ドキュメントちゃんと書く
