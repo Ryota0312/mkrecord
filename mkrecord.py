@@ -18,6 +18,23 @@ gcapi.auth("credentials.json")
 env = Environment(loader=FileSystemLoader('.'), trim_blocks=True)
 template = env.get_template(settings["Template"])
 
+# AutoRangeSetFlag == Trueなら，自動でStart, End, Date, NextDateを埋める
+# 前後1ヶ月から，MeetingNameに等しい予定の日付を取得し，それが今日以前ならStart，今日以後ならDate，EndはDate - 1, NextDateは，Dateの一月後
+today = datetime.datetime.now()
+if settings["RangeAutoSetFlag"]:
+    start = today.replace(month = today.month -1, day = 1)
+    end = today.replace(month = today.month +1, day = 28)
+    for cal in settings["Calendars"].keys():
+        events = gcapi.get_events(settings["Calendars"][cal]["Ids"], start, end)
+        for e in events:
+            if settings["MeetingName"] in e.summary:
+                if today > e.start:
+                    settings["Start"] = e.start.strftime("%Y年%m月%d日")
+                else:
+                    settings["Date"] = e.end.strftime("%Y年%m月%d日")
+                    settings["End"] = e.end.replace(day = e.end.day -1).strftime("%Y年%m月%d日")
+                    settings["NextDate"] = e.end.replace(month = e.end.month +1).strftime("%Y年%m月%d日")
+
 
 # Calendars の各キーについて Ids に含まれるカレンダIDを使ってイベントを取得する
 # Calendars.<KEY>.events.prev に Start - End まで
