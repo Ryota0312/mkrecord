@@ -46,6 +46,11 @@
 
 {% raw %}
 \subsection{研究室関連}
+{% endraw %}
+{% if not Calendars.Labo.events.prev %}
+特になし
+{% else %} 
+{% raw %}
 \begin{enumerate}
 {% endraw %}
 {% for event in Calendars.Labo.events.prev %}
@@ -54,9 +59,15 @@
 {% raw %}
 \end{enumerate}
 {% endraw %}
+{% endif %}
 
 {% raw %}
 \subsection{大学院関連}
+{% endraw %}
+{% if not Calendars.Univ.events.prev %}
+特になし
+{% else %} 
+{% raw %}
 \begin{enumerate}
 {% endraw %}
 {% for event in Calendars.Univ.events.prev %}
@@ -65,6 +76,7 @@
 {% raw %}
 \end{enumerate}
 {% endraw %}
+{% endif %}
 
 {% raw %}
 \section{詳細および反省・感想}
@@ -72,12 +84,20 @@
 
 {% raw %}
 \section{今後の予定}
+{% endraw %}
+
+{% raw %}
 \subsection{研究関連}
 {% endraw %}
 {{Research}}
 
 {% raw %}
 \subsection{研究室関連}
+{% endraw %}
+{% if not Calendars.Labo.events.next %}
+特になし
+{% else %} 
+{% raw %}
 \begin{enumerate}
 {% endraw %}
 {% for event in Calendars.Labo.events.next %}
@@ -86,9 +106,15 @@
 {% raw %}
 \end{enumerate}
 {% endraw %}
+{% endif %}
 
 {% raw %}
 \subsection{大学院関連}
+{% endraw %}
+{% if not Calendars.Labo.events.next %}
+特になし
+{% else %} 
+{% raw %}
 \begin{enumerate}
 {% endraw %}
 {% for event in Calendars.Univ.events.next %}
@@ -97,6 +123,7 @@
 {% raw %}
 \end{enumerate}
 {% endraw %}
+{% endif %}
 
 {% raw %}
 \end{document}
