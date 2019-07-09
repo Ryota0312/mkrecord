@@ -1,5 +1,5 @@
 Template: templates/sw_record.tex.tpl
-OldRecord: olds/record.tex
+OldRecord: old_records/record.tex
 Number: 50
 Familyname: 西
 Givenname: 良太
