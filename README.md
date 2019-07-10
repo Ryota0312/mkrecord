@@ -1,5 +1,7 @@
 # 記録書メーカー
 + templates と settings.yaml から記録書作る奴
++ Wiki に設定ファイルのサンプルとか書き方とか
+  + http://github.com/Ryota0312/mkrecord/wiki
 
 # Install
 1. clone & pip install
