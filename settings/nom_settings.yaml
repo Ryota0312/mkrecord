@@ -1,25 +1,21 @@
 Template: templates/nom_record.md.tpl
-PrevRecord: /home/ryota/Documents/record/050nom/record50.md
-Number: 52
-Name: 西 良太
-Belongs: 乃村研究室M2
-Start: 2019年5月23日
-End: 2019年7月3日
-Date: 2019年7月4日
-NextDate: 2019年8月11日
-MeetingName: nomlab meeting
+PrevRecord: path/to/previous_record
+Number: 2
+Name: 岡大 太郎
+Belongs: 桃太郎研究室M2
+MeetingName: 桃太郎ミーティング
 RangeAutoSetFlag: True
 Calendars:
   Labo:
     Ids:
-      - 'is2imfc9l68c9ohurj8m84rehg@group.calendar.google.com'
-      - 'nomura.laboratory@gmail.com'
-      - 'i3rr8i5lhg3rbnrnf63pejs1qk@group.calendar.google.com'
+      - 'calendar_id1'
+      - 'calendar_id2'
+      - 'calendar_id3'
   Univ:
     Ids:
-      - 'le7613rep4utu1hcep8sdk04ao@group.calendar.google.com'
+      - 'calendar_id4'
     Filter:
-      description: "西"
+      description: "太郎"
 PrevCopy:
   Research:
     Startline: 研究関連
