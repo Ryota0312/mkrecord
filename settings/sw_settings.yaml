@@ -10,6 +10,8 @@ Start: 2019年5月23日
 End: 2019年7月3日
 Date: 2019年7月4日
 NextDate: 2019年8月11日
+MeetingName: 全体ミーティング
+RangeAutoSetFlag: True
 Calendars:
   Labo:
     Ids:
