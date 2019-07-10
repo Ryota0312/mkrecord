@@ -87,8 +87,6 @@ class GoogleCalendarAPI:
                                                        orderBy='startTime').execute()
             events = events_result.get('items', [])
         
-            if not events:
-                print('No upcoming events found.')
             for event in events:
                 e = Event.parse(event)
                 # filters に指定した正規表現にマッチしないものは無視
