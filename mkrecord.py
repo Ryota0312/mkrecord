@@ -27,7 +27,7 @@ if settings["RangeAutoSetFlag"]:
     for cal in settings["Calendars"].keys():
         events = gcapi.get_events(settings["Calendars"][cal]["Ids"], start, end)
         for e in events:
-            if settings["MeetingName"] in e.summary:
+            if re.match(settings["MeetingName"], e.summary):
                 if today > e.start:
                     settings["Start"] = e.start.strftime("%Y年%m月%d日")
                 else:
