@@ -38,6 +38,8 @@ $ python mkrecord.py settings/nom_settings.yaml
   |Date|ミーティングの日|
   |NextDate|今後の予定に入れたい日の終了日|
   |PrevCopy|前回の記録書からコピーする項目|
+  |MeetingName|ミーティング名．RangeAutoSetFlagがTrueのときこの名前の予定をカレンダから取得して使用する．（正規表現可）|
+  |RangeAutoSetFlag|Trueに設定するとMeetingNameをカレンダから探して自動的に日付関係を決定してくれる|
 
 + これ以外もそれっぽく埋める
 + TODO:ドキュメントちゃんと書く
