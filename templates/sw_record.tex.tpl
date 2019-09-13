@@ -26,7 +26,7 @@
 \setcounter{section}{0}
 \author{{% endraw %}{{ Belongs }}{% raw %}\vspace{3mm}\\\ruby[Pm]{{% endraw %}{{ Familyname }}{% raw %}}{{% endraw %}{{ FamilynameRuby }}{% raw %}} \ruby[Pm]{{% endraw %}{{ Givenname }}{% raw %}}{{% endraw %}{{ GivennameRuby }}{% raw %}}}{% endraw %}
 {% raw %}
-\date{{% endraw %}{{ Name }}{% raw %}}
+\date{{% endraw %}{{ Date }}{% raw %}}
 {% endraw %}
 {% raw %}
 \title{記録書　No.{% endraw %}{{ Number }}{% raw %}}
