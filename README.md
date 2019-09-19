@@ -17,6 +17,20 @@ $ pip install -r requirements.txt
 	 + 「APIとサービス」でProject作成→「APIとサービスを有効化」→「Google Calendar API」
 	 + 「認証情報」→「認証情報を作成」→「OAuth クライアントID」→「その他」を選んで作成
 	 + 「JSONをダウンロード」みたいなやつでダウンロードして「credentials.json」という名前で配置
+	 
+# Install using Pipenv 
+1. clone
+2. install
+   
+   ```
+   $ pipenv install
+   ```
+	   
+3. run 
+   
+   ```
+   $ pipenv run make settings.yaml
+   ```
 
 # Usage
 + 乃村研ミーティングの記録書を作る場合
