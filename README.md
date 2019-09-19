@@ -3,15 +3,30 @@
 + Wiki に設定ファイルのサンプルとか書き方とか
   + http://github.com/Ryota0312/mkrecord/wiki
 
-# Install
-1. clone & pip install
+# Setup
+1. clone
 
 ```
 $ git clone git@github.com:Ryota0312/mkrecord.git
-$ pip install -r requirements.txt
 ```
 
-2. Google Calendar API の有効化と認証情報の取得
+2. install library
+   1. Using pip
+      ```
+      $ pip install -r requirements.txt
+      ```
+      参考: https://github.com/pypa/pip
+
+
+   2. Using pipenv
+      ```
+      $ pipenv install
+      ```
+      参考: https://github.com/pypa/pipenv
+
+
+
+3. Google Calendar API の有効化と認証情報の取得
    + mkrecord/ 以下に `credentials.json` という名前で認証情報を置いておく必要あり
    + https://console.cloud.google.com/apis/dashboard で取れるはず
 	 + 「APIとサービス」でProject作成→「APIとサービスを有効化」→「Google Calendar API」
@@ -21,9 +36,16 @@ $ pip install -r requirements.txt
 # Usage
 + 乃村研ミーティングの記録書を作る場合
 
+1. Using pip
 ```
 $ python mkrecord.py settings/nom_settings.yaml
 ```
+
+2. Using pipenv
+```
+$ pipenv run make settings/nom_settings.yaml
+```
+
 
 # How to setting
 + YAML形式で設定を記述する
