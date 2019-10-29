@@ -3,14 +3,72 @@ import datetime
 import pickle
 import os.path
 import re
+import sys
+from abc import ABCMeta
+from abc import abstractmethod
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+
+class EventCollection:
+    def __init__(self, events=None):
+        if events == None:
+            self.events = []
+        else:
+            self.events = events
+
+    def __getitem__(self, key):
+        return self.events[key]
+
+    @classmethod
+    def parse(cls, google_events, filters=None):
+        events = []
+        for event in google_events:
+            e = SingleEvent.parse(event)
+            # filters に指定した正規表現にマッチしないものは無視
+            if filters:
+                if filters.get("summary"):
+                    if re.search(filters["summary"], e.summary) == None: continue
+                if filters.get("description"):
+                    if re.search(filters["description"], e.description) == None: continue
+            events.append(e)
+        return EventCollection(events)
+
+    def merge(self, event_collection):
+        self.events += event_collection.events
+
+    def append(self, event):
+        self.events.append(event)
+
+    def sort(self):
+        self.events =  sorted(self.events)
     
-class Event:
+class Event(metaclass = ABCMeta):
+    @classmethod
+    @abstractmethod
+    def parse(cls, event):
+        pass
+
+    @abstractmethod
+    def fmt(self, fmtstring, timefmt):
+        pass
+
+class RepetitionEvent(Event):
+    def __init__(self, summary, description, start, end):
+        if (type(start) != list) or (type(end) != list): raise TypeError
+        self.summary = summary
+        self.description = description
+        self.start = start # list
+        self.end = end # list
+
+    @classmethod
+    def parse(cls, events):
+        pass
+
+class SingleEvent(Event):
     def __init__(self, summary, description, start, end):
         self.summary = summary
         self.description = description
@@ -38,7 +96,7 @@ class Event:
         else:
             end = datetime.datetime.strptime(end[:19], "%Y-%m-%dT%H:%M:%S")            
         
-        return Event(summary, description, start, end)
+        return SingleEvent(summary, description, start, end)
 
     def print_event(self):
         print(self.summary, self.description, self.start, self.end)
@@ -78,7 +136,7 @@ class GoogleCalendarAPI:
     # calendar_ids で指定したカレンダのイベントを取得し，ソートして返却
     def get_events(self, calendar_ids, start, end, filters=None):
         # Call the Calendar API
-        event_list = []
+        event_list = EventCollection()
         for calendar_id in calendar_ids:
             events_result = self.service.events().list(calendarId=calendar_id,
                                                        timeMin=start.isoformat()+'+09:00',
@@ -86,15 +144,9 @@ class GoogleCalendarAPI:
                                                        singleEvents=True,
                                                        orderBy='startTime').execute()
             events = events_result.get('items', [])
-        
-            for event in events:
-                e = Event.parse(event)
-                # filters に指定した正規表現にマッチしないものは無視
-                if filters:
-                    if filters.get("summary"):
-                        if re.search(filters["summary"], e.summary) == None: continue
-                    if filters.get("description"):
-                        if re.search(filters["description"], e.description) == None: continue
-                event_list.append(e)
 
-        return sorted(event_list)
+            event_list_each_cal = EventCollection.parse(events, filters)
+            event_list.merge(event_list_each_cal)
+
+        event_list.sort()
+        return event_list
