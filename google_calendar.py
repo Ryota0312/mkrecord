@@ -24,17 +24,40 @@ class EventCollection:
         return self.events[key]
 
     @classmethod
-    def parse(cls, google_events, filters=None):
+    def parse(cls, google_events, filters=None, exclude=None):
+        if exclude == None: exclude = []
+        # 同じsummaryの予定をグルーピング
+        # exclude に指定した予定はグルーピングしない
+        # TODO: 現在，excludeにはMeetingNameのみ指定しているが，設定ファイルから設定したい
+        sorted_events = sorted(google_events, key=lambda x:x["summary"])
+        grouped_events = []
+        grouping_index = 0
+        prev_event = sorted_events[grouping_index]
+        for i,event in enumerate(sorted_events):
+            if i==0: continue
+            if (event["summary"]==prev_event["summary"]) and (not re.match(exclude, event["summary"])):
+                pass
+            else:
+                grouped_events.append(sorted_events[grouping_index:i])
+                grouping_index = i
+            prev_event = sorted_events[i]
+        grouped_events.append(sorted_events[grouping_index:-1])
+
         events = []
-        for event in google_events:
-            e = SingleEvent.parse(event)
+        for event in grouped_events:
             # filters に指定した正規表現にマッチしないものは無視
             if filters:
                 if filters.get("summary"):
-                    if re.search(filters["summary"], e.summary) == None: continue
+                    if re.search(filters["summary"], event[0]["summary"]) == None: continue
                 if filters.get("description"):
-                    if re.search(filters["description"], e.description) == None: continue
-            events.append(e)
+                    if re.search(filters["description"], event[0]["description"]) == None: continue
+            if len(event) == 1:
+                e = SingleEvent.parse(event[0])
+                events.append(e)
+            elif len(event) > 1:
+                e = RepetitionEvent.parse(event)
+                events.append(e)
+
         return EventCollection(events)
 
     def merge(self, event_collection):
@@ -58,15 +81,57 @@ class Event(metaclass = ABCMeta):
 
 class RepetitionEvent(Event):
     def __init__(self, summary, description, start, end):
-        if (type(start) != list) or (type(end) != list): raise TypeError
-        self.summary = summary
-        self.description = description
-        self.start = start # list
-        self.end = end # list
+        if (type(summary) != list) or (type(description) != list) or (type(start) != list) or (type(end) != list): raise TypeError
+        # リスト
+        self.summary_list = summary
+        self.description_list = description
+        self.start_list = start
+        self.end_list = end
+        # 1つ目の予定を代表値として使っている
+        # TODO: ちょっときもいから綺麗にしたい
+        self.summary = self.summary_list[0]
+        self.description = self.description_list[0]
+        self.start = self.start_list[0]
+        self.end = self.end_list[0]
+
+    def __lt__(self, other):
+        return self.start < other.start
+
+    def __getitem__(self, key):
+        return SingleEvent(self.summary_list[key], self.description_list[key], self.start_list[key], self.end_list[key])
 
     @classmethod
     def parse(cls, events):
-        pass
+        summary = []
+        description = []
+        start = []
+        end = []
+        for event in events:
+            summary.append(event.get("summary"))
+            description.append(event.get("description"))
+            s = event.get("start").get("dateTime")
+            e = event.get("end").get("dateTime")
+        
+            if s == None:
+                s = event.get("start").get("date")
+                s = datetime.datetime.strptime(s, "%Y-%m-%d")
+            else:
+                s = datetime.datetime.strptime(s[:19], "%Y-%m-%dT%H:%M:%S")
+            if e == None:
+                e = event.get("start").get("date")
+                e = datetime.datetime.strptime(e, "%Y-%m-%d")
+            else:
+                e = datetime.datetime.strptime(e[:19], "%Y-%m-%dT%H:%M:%S")
+
+            start.append(s)
+            end.append(e)
+        
+        return RepetitionEvent(summary, description, start, end)
+
+    # %SUMMARY %START %END で出力形式指定
+    # timefmtは %STARTと%ENDの日付出力形式
+    def fmt(self, fmtstring, timefmt):
+        return fmtstring.replace("%SUMMARY", self.summary).replace("%START", ",".join([datetime.datetime.strftime(x, timefmt) for x in self.start_list])).replace("%END", ",".join([datetime.datetime.strftime(x, timefmt) for x in self.end_list]))
 
 class SingleEvent(Event):
     def __init__(self, summary, description, start, end):
@@ -134,7 +199,7 @@ class GoogleCalendarAPI:
         self.service = build('calendar', 'v3', credentials=self.credentials)
 
     # calendar_ids で指定したカレンダのイベントを取得し，ソートして返却
-    def get_events(self, calendar_ids, start, end, filters=None):
+    def get_events(self, calendar_ids, start, end, filters=None, exclude=None):
         # Call the Calendar API
         event_list = EventCollection()
         for calendar_id in calendar_ids:
@@ -145,7 +210,7 @@ class GoogleCalendarAPI:
                                                        orderBy='startTime').execute()
             events = events_result.get('items', [])
 
-            event_list_each_cal = EventCollection.parse(events, filters)
+            event_list_each_cal = EventCollection.parse(events, filters, exclude)
             event_list.merge(event_list_each_cal)
 
         event_list.sort()
