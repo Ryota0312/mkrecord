@@ -25,7 +25,7 @@ if settings["RangeAutoSetFlag"]:
     start = today.replace(month = today.month -1, day = 1)
     end = today.replace(month = today.month +1, day = 28)
     for cal in settings["Calendars"].keys():
-        events = gcapi.get_events(settings["Calendars"][cal]["Ids"], start, end)
+        events = gcapi.get_events(settings["Calendars"][cal]["Ids"], start, end, exclude=settings["MeetingName"])
         for e in events:
             if re.match(settings["MeetingName"], e.summary):
                 if today > e.start:
@@ -41,8 +41,8 @@ if settings["RangeAutoSetFlag"]:
 # Calendars.<KEY>.events.next に Date - NextDate まで
 for cal in settings["Calendars"].keys():
     settings["Calendars"][cal]["events"] = {}
-    settings["Calendars"][cal]["events"]["prev"] = gcapi.get_events(settings["Calendars"][cal]["Ids"], datetime.datetime.strptime(settings["Start"], "%Y年%m月%d日"), datetime.datetime.strptime(settings["End"],"%Y年%m月%d日") + datetime.timedelta(days=1) - datetime.timedelta(seconds=1), settings["Calendars"][cal].get("Filter"))
-    settings["Calendars"][cal]["events"]["next"] = gcapi.get_events(settings["Calendars"][cal]["Ids"], datetime.datetime.strptime(settings["Date"], "%Y年%m月%d日"), datetime.datetime.strptime(settings["NextDate"],"%Y年%m月%d日") + datetime.timedelta(days=1) - datetime.timedelta(seconds=1), settings["Calendars"][cal].get("Filter"))
+    settings["Calendars"][cal]["events"]["prev"] = gcapi.get_events(settings["Calendars"][cal]["Ids"], datetime.datetime.strptime(settings["Start"], "%Y年%m月%d日"), datetime.datetime.strptime(settings["End"],"%Y年%m月%d日") + datetime.timedelta(days=1) - datetime.timedelta(seconds=1), settings["Calendars"][cal].get("Filter"), settings["MeetingName"])
+    settings["Calendars"][cal]["events"]["next"] = gcapi.get_events(settings["Calendars"][cal]["Ids"], datetime.datetime.strptime(settings["Date"], "%Y年%m月%d日"), datetime.datetime.strptime(settings["NextDate"],"%Y年%m月%d日") + datetime.timedelta(days=1) - datetime.timedelta(seconds=1), settings["Calendars"][cal].get("Filter"), settings["MeetingName"])
 
 ## 前回の記録書から項目をコピー
 for prev in settings["PrevCopy"].keys():
