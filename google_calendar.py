@@ -32,6 +32,7 @@ class EventCollection:
         sorted_events = sorted(google_events, key=lambda x:x["summary"])
         grouped_events = []
         grouping_index = 0
+        if len(sorted_events)==0: return EventCollection([])
         prev_event = sorted_events[grouping_index]
         for i,event in enumerate(sorted_events):
             if i==0: continue
