@@ -33,7 +33,7 @@ if settings["RangeAutoSetFlag"]:
                 else:
                     settings["Date"] = e.end.strftime("%Y年%m月%d日")
                     settings["End"] = e.end.replace(day = e.end.day -1).strftime("%Y年%m月%d日")
-                    settings["NextDate"] = e.end.replace(month = e.end.month +1).strftime("%Y年%m月%d日")
+                    settings["NextDate"] = e.end.replace(month = (e.end.month +1)%12).strftime("%Y年%m月%d日")
 
 
 # Calendars の各キーについて Ids に含まれるカレンダIDを使ってイベントを取得する
