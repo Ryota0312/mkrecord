@@ -10,25 +10,41 @@
 {{PrevCopy.Research}}
 
 ## 研究室関連
-{% for event in Calendars.Labo.events.prev %}
+{% if not Calendars.Univ.events.prev -%}
+特になし
+{% else -%} 
+{% for event in Calendars.Labo.events.prev -%}
 {{ event.fmt("+ (%START) %SUMMARY", "%-m/%-d") }}
-{% endfor %}
+{% endfor -%}
+{% endif %}
 
 ## 大学院関連
-{% for event in Calendars.Univ.events.prev %}
+{% if not Calendars.Univ.events.prev -%}
+特になし
+{% else -%} 
+{% for event in Calendars.Univ.events.prev -%}
 {{ event.fmt("+ (%START) %SUMMARY", "%-m/%-d") }}
-{% endfor %}
+{% endfor -%}
+{% endif %}
 
 # 今後の予定
 ## 研究室関連
-{% for event in Calendars.Labo.events.next %}
+{% if not Calendars.Labo.events.next -%}
+特になし
+{% else -%} 
+{% for event in Calendars.Labo.events.next -%}
 {{ event.fmt("+ (%START) %SUMMARY", "%-m/%-d") }}
-{% endfor %}
+{% endfor -%}
+{% endif %}
 
 ## 大学院関連
-{% for event in Calendars.Univ.events.next %}
+{% if not Calendars.Labo.events.next -%}
+特になし
+{% else -%} 
+{% for event in Calendars.Univ.events.next -%}
 {{ event.fmt("+ (%START) %SUMMARY", "%-m/%-d") }}
-{% endfor %}
+{% endfor -%}
+{% endif %}
 
 # NOTE
 
