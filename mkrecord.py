@@ -4,6 +4,8 @@ import sys
 import re # for regexp
 from jinja2 import Template, Environment, FileSystemLoader
 from google_calendar import GoogleCalendarAPI
+from dateutil.relativedelta import relativedelta
+from datetime import date, timedelta
 
 # 設定ファイル読み込み
 args = sys.argv
@@ -22,8 +24,9 @@ template = env.get_template(settings["Template"])
 # 前後1ヶ月から，MeetingNameに等しい予定の日付を取得し，それが今日以前ならStart，今日以後ならDate，EndはDate - 1, NextDateは，Dateの一月後
 today = datetime.datetime.now()
 if settings["RangeAutoSetFlag"]:
-    start = today.replace(month = today.month -1, day = 1)
-    end = today.replace(month = today.month +1, day = 28)
+    start = (today - relativedelta(months=1)).replace(day = 1)
+    end = (today + relativedelta(months=1)).replace(day = 28)
+
     for cal in settings["Calendars"].keys():
         events = gcapi.get_events(settings["Calendars"][cal]["Ids"], start, end, exclude=settings["MeetingName"])
         for e in events:
@@ -32,9 +35,8 @@ if settings["RangeAutoSetFlag"]:
                     settings["Start"] = e.start.strftime("%Y年%m月%d日")
                 else:
                     settings["Date"] = e.end.strftime("%Y年%m月%d日")
-                    settings["End"] = e.end.replace(day = e.end.day -1).strftime("%Y年%m月%d日")
-                    settings["NextDate"] = e.end.replace(month = (e.end.month +1)%12).strftime("%Y年%m月%d日")
-
+                    settings["End"] = (e.end - timedelta(days=1)).strftime("%Y年%m月%d日")
+                    settings["NextDate"] = (e.end + relativedelta(months=1)).strftime("%Y年%m月%d日")
 
 # Calendars の各キーについて Ids に含まれるカレンダIDを使ってイベントを取得する
 # Calendars.<KEY>.events.prev に Start - End まで
