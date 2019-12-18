@@ -1,4 +1,4 @@
-{% raw %}
+{% raw -%}
 \documentclass[fleqn,14pt]{extarticle}
 \usepackage{reportForm}
 \usepackage[utf8]{inputenc}
@@ -19,19 +19,19 @@
 \usepackage{pxrubrica}
 
 \tolerance=1000
-\subtitle{({% endraw %}{{ Start }}$\sim${{ End }}{% raw %})}
+\subtitle{({% endraw -%}{{ Start }}$\sim${{ End }}{% raw -%})}
 \usepackage{strike}
 \usepackage{setspace}
 \setstretch{.95}
 \setcounter{section}{0}
-\author{{% endraw %}{{ Belongs }}{% raw %}\vspace{3mm}\\\ruby[Pm]{{% endraw %}{{ Familyname }}{% raw %}}{{% endraw %}{{ FamilynameRuby }}{% raw %}} \ruby[Pm]{{% endraw %}{{ Givenname }}{% raw %}}{{% endraw %}{{ GivennameRuby }}{% raw %}}}{% endraw %}
-{% raw %}
-\date{{% endraw %}{{ Date }}{% raw %}}
-{% endraw %}
-{% raw %}
-\title{記録書　No.{% endraw %}{{ Number }}{% raw %}}
-{% endraw %}
-{% raw %}
+\author{{% endraw -%}{{ Belongs }}{% raw -%}\vspace{3mm}\\\ruby[Pm]{{% endraw -%}{{ Familyname }}{% raw -%}}{{% endraw -%}{{ FamilynameRuby }}{% raw -%}} \ruby[Pm]{{% endraw -%}{{ Givenname }}{% raw -%}}{{% endraw -%}{{ GivennameRuby }}{% raw -%}}}{% endraw -%}
+{% raw -%}
+\date{{% endraw -%}{{ Date }}{% raw -%}}
+{% endraw -%}
+{% raw -%}
+\title{記録書　No.{% endraw -%}{{ Number }}{% raw -%}}
+{% endraw -%}
+{% raw -%}
 \hypersetup{
   pdfkeywords={},
   pdfsubject={},
@@ -41,90 +41,90 @@
 
 \section{実績}
 \subsection{研究関連}
-{% endraw %}
+{% endraw -%}
 {{PrevCopy.Research}}
 
-{% raw %}
+{% raw -%}
 \subsection{研究室関連}
-{% endraw %}
-{% if not Calendars.Labo.events.prev %}
+{% endraw -%}
+{% if not Calendars.Labo.events.prev -%}
 特になし
-{% else %} 
-{% raw %}
+{% else -%} 
+{% raw -%}
 \begin{enumerate}
-{% endraw %}
-{% for event in Calendars.Labo.events.prev %}
+{% endraw -%}
+{% for event in Calendars.Labo.events.prev -%}
 {{ event.fmt("\\item %SUMMARY\n\\hfill\n(%START)", "%-m/%-d") }}
-{% endfor %}
-{% raw %}
+{% endfor -%}
+{% raw -%}
 \end{enumerate}
-{% endraw %}
-{% endif %}
+{% endraw -%}
+{% endif -%}
 
 {% raw %}
 \subsection{大学院関連}
-{% endraw %}
-{% if not Calendars.Univ.events.prev %}
+{% endraw -%}
+{% if not Calendars.Univ.events.prev -%}
 特になし
-{% else %} 
-{% raw %}
+{% else -%} 
+{% raw -%}
 \begin{enumerate}
-{% endraw %}
-{% for event in Calendars.Univ.events.prev %}
+{% endraw -%}
+{% for event in Calendars.Univ.events.prev -%}
 {{ event.fmt("\\item %SUMMARY\n\\hfill\n(%START)", "%-m/%-d") }}
-{% endfor %}
-{% raw %}
+{% endfor -%}
+{% raw -%}
 \end{enumerate}
-{% endraw %}
-{% endif %}
+{% endraw -%}
+{% endif -%}
 
 {% raw %}
 \section{詳細および反省・感想}
-{% endraw %}
+{% endraw -%}
 
 {% raw %}
 \section{今後の予定}
-{% endraw %}
+{% endraw -%}
 
 {% raw %}
 \subsection{研究関連}
-{% endraw %}
+{% endraw -%}
 {{Research}}
 
 {% raw %}
 \subsection{研究室関連}
-{% endraw %}
-{% if not Calendars.Labo.events.next %}
+{% endraw -%}
+{% if not Calendars.Labo.events.next -%}
 特になし
-{% else %} 
-{% raw %}
+{% else -%} 
+{% raw -%}
 \begin{enumerate}
-{% endraw %}
-{% for event in Calendars.Labo.events.next %}
+{% endraw -%}
+{% for event in Calendars.Labo.events.next -%}
 {{ event.fmt("\\item %SUMMARY\n\\hfill\n(%START)", "%-m/%-d") }}
-{% endfor %}
-{% raw %}
+{% endfor -%}
+{% raw -%}
 \end{enumerate}
-{% endraw %}
-{% endif %}
+{% endraw -%}
+{% endif -%}
 
 {% raw %}
 \subsection{大学院関連}
-{% endraw %}
-{% if not Calendars.Labo.events.next %}
+{% endraw -%}
+{% if not Calendars.Labo.events.next -%}
 特になし
-{% else %} 
-{% raw %}
+{% else -%} 
+{% raw -%}
 \begin{enumerate}
-{% endraw %}
-{% for event in Calendars.Univ.events.next %}
+{% endraw -%}
+{% for event in Calendars.Univ.events.next -%}
 {{ event.fmt("\\item %SUMMARY\n\\hfill\n(%START)", "%-m/%-d") }}
-{% endfor %}
-{% raw %}
+{% endfor -%}
+{% raw -%}
 \end{enumerate}
-{% endraw %}
-{% endif %}
+{% endraw -%}
+{% endif -%}
 
 {% raw %}
 \end{document}
-{% endraw %}
+{% endraw -%}
