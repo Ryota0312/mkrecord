@@ -42,7 +42,7 @@ class EventCollection:
                 grouped_events.append(sorted_events[grouping_index:i])
                 grouping_index = i
             prev_event = sorted_events[i]
-        grouped_events.append(sorted_events[grouping_index:-1])
+        grouped_events.append(sorted_events[grouping_index:])
 
         events = []
         for event in grouped_events:
