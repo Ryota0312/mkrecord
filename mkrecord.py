@@ -32,11 +32,11 @@ if settings["RangeAutoSetFlag"]:
         for e in events:
             if re.match(settings["MeetingName"], e.summary):
                 if today > e.start:
-                    settings["Start"] = e.start.strftime("%Y年%m月%d日")
+                    settings["Start"] = e.start.strftime("%Y年%-m月%-d日")
                 else:
-                    settings["Date"] = e.end.strftime("%Y年%m月%d日")
-                    settings["End"] = (e.end - timedelta(days=1)).strftime("%Y年%m月%d日")
-                    settings["NextDate"] = (e.end + relativedelta(months=1)).strftime("%Y年%m月%d日")
+                    settings["Date"] = e.end.strftime("%Y年%-m月%-d日")
+                    settings["End"] = (e.end - timedelta(days=1)).strftime("%Y年%-m月%-d日")
+                    settings["NextDate"] = (e.end + relativedelta(months=1)).strftime("%Y年%-m月%-d日")
 
 # Calendars の各キーについて Ids に含まれるカレンダIDを使ってイベントを取得する
 # Calendars.<KEY>.events.prev に Start - End まで
