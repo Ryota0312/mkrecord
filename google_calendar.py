@@ -23,6 +23,9 @@ class EventCollection:
     def __getitem__(self, key):
         return self.events[key]
 
+    def __len__(self):
+        return len(self.events)
+
     @classmethod
     def parse(cls, google_events, filters=None, exclude=None):
         if exclude == None: exclude = []
