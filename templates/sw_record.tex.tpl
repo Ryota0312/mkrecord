@@ -96,7 +96,7 @@
 {% endraw -%}
 {% if not Calendars.Labo.events.next -%}
 特になし
-{% else -%} 
+{% else -%}
 {% raw -%}
 \begin{enumerate}
 {% endraw -%}
@@ -111,7 +111,7 @@
 {% raw %}
 \subsection{大学院関連}
 {% endraw -%}
-{% if not Calendars.Labo.events.next -%}
+{% if not Calendars.Univ.events.next -%}
 特になし
 {% else -%} 
 {% raw -%}
